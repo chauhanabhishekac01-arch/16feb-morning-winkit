@@ -1,25 +1,69 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- DATA ---
     const collections = [
-        { id: "snacks", name: "Snacks", previews: ["alu.jpg", "bikkit.jpg", "namkeen.jpg", "namkeen.jpg"] },
-        { id: "grocery", name: "Grocery", previews: ["atta.jpg", "oil.jpg", "dal.jpg", "rice.jpg"] },
-        { id: "dairy", name: "Dairy", previews: ["milk.jpg", "egg.jpg", "bread.jpg", "cheese.jpg"] },
+        { id: "beverages", name: "Beverages", previews: ["dwater.jpg", "dcokeb.jpg", "dcokec.jpg", "dpepsi.jpg"] },
+        { id: "snacks", name: "Snacks", previews: ["ssalted.jpg", "skurkurem.jpg", "slaysg.jpg", "skurkurec.jpg"] },
+        { id: "biscuits", name: "Biscuits", previews: ["bicrakjack.jpg", "biparleg.jpg", "bihideandseek.jpg", "bioreo.jpg"] },
+        { id: "chocolates", name: "Chocolates", previews: ["chdc.jpg", "chcrispello.jpg", "chfruitnnut.jpg", "chkinderjoy.jpg"] },
         { id: "cleaning", name: "Cleaning", previews: ["soap.jpg", "surf.jpg", "mop.jpg", "brush.jpg"] },
-        { id: "personal", name: "Personal Care", previews: ["paste.jpg", "shampoo.jpg", "cream.jpg", "perfume.jpg"] },
-        { id: "drinks", name: "Beverages", previews: ["coke.jpg", "juice.jpg", "tea.jpg", "water.jpg"] }
+        { id: "personal", name: "Personal Care", previews: ["pccomb.jpg", "pcalmond.jpg", "pcgillette.jpg", "pctowel.jpg"] }
     ];
-
+    
     const products = [
-        { id: 1, name: "Alu Bhujiya", image: "alu.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 20, count: 0, unit: "40g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 100, count: 0, unit: "1kg" } } },
-        { id: 2, name: "Cream Biscuits", image: "bikkit.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "75g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 30, count: 0, unit: "200g" } } },
-        { id: 3, name: "Atta Bag", image: "atta.jpg", cat: "grocery", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
-        { id: 4, name: "Mustard Oil", image: "oil.jpg", cat: "grocery", selectedVariant: "Standard", variants: { "Small": { price: 80, count: 0, unit: "25ml" },"Standard": { price: 165, count: 0, unit: "1L" },"Large": { price: 280, count: 0, unit: "2L" }, } },
-        { id: 5, name: "Fresh Milk", image: "milk.jpg", cat: "dairy", selectedVariant: "Pouch", variants: { "Pouch": { price: 33, count: 0, unit: "500ml" }, "Family": { price: 64, count: 0, unit: "1L" } } },
-        { id: 6, name: "Brown Bread", image: "bread.jpg", cat: "dairy", selectedVariant: "Standard", variants: { "Standard": { price: 50, count: 0, unit: "400g" } } },
-        { id: 7, name: "Detergent Powder", image: "surf.jpg", cat: "cleaning", selectedVariant: "Small", variants: { "Small": { price: 70, count: 0, unit: "500g" }, "Large": { price: 130, count: 0, unit: "1kg" } } },
-        { id: 8, name: "Shampoo", image: "shampoo.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
-        { id: 9, name: "Cold Drink", image: "coke.jpg", cat: "drinks", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "500ml" }, "Large": { price: 95, count: 0, unit: "2L" } } },
-        { id: 10, name: "Bhujiya", image: ".jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 20, count: 0, unit: "40g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 100, count: 0, unit: "1kg" } } }
+        /*beverages*/       { id: 1, name: "Mineral Water", image: "dwater.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 20, count: 0, unit: "1L" }, "Large": { price: 70, count: 0, unit: "5L" } } },
+                            { id: 2, name: "Coca-Cola Bottel", image: "dcokeb.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "750ml" }, "Large": { price: 90, count: 0, unit: "2L" } } },
+                            { id: 3, name: "Coca-Cola Can", image: "dcokec.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "300ml" } } },
+                            { id: 4, name: "Dite Coke Can", image: "dcoked.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "500ml" } } },
+                            { id: 5, name: "Pepsi", image: "dpepsi.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "750ml" }, "Large": { price: 90, count: 0, unit: "2L" } } },
+                            { id: 6, name: "Pepsi Zero Sugar", image: "dpepsiz.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "300ml" } } },
+                            { id: 7, name: "Maaza", image: "dmaaza.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "600ml" }, "Large": { price: 80, count: 0, unit: "1.75L" } } },
+                            { id: 8, name: "Frooti Mango", image: "dfrooti.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "150ml" }, "Large": { price: 105, count: 0, unit: "2L" } } },
+                            { id: 9, name: "Amul Kool Kesar", image: "damulk.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 25, count: 0, unit: "180ml" } } },
+                            { id: 10, name: "Mirinda", image: "dmirinda.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 30, count: 0, unit: "300ml" }, "Large": { price: 80, count: 0, unit: "2.25L" } } },
+                            
+        /*Cleaning*/        
+                                                
+        /*chocolates */     { id: 2001, name: "Crispello", image: "chcrispello.jpg", cat: "chocolates", selectedVariant: "Pouch", variants: { "Pouch": { price: 33, count: 0, unit: "500ml" }, "Family": { price: 64, count: 0, unit: "1L" } } },
+                            { id: 2002, name: "Amul Dark Chocolate", image: "chdc.jpg", cat: "chocolates", selectedVariant: "Pouch", variants: { "Pouch": { price: 33, count: 0, unit: "500ml" }, "Family": { price: 64, count: 0, unit: "1L" } } },
+                            { id: 2003, name: "Fruit and Nut", image: "chfruitnnut.jpg", cat: "chocolates", selectedVariant: "Pouch", variants: { "Pouch": { price: 33, count: 0, unit: "500ml" }, "Family": { price: 64, count: 0, unit: "1L" } } },
+                            { id: 2004, name: "Fuse", image: "chfuse.jpg", cat: "chocolates", selectedVariant: "Pouch", variants: { "Pouch": { price: 33, count: 0, unit: "500ml" }, "Family": { price: 64, count: 0, unit: "1L" } } },
+                            { id: 2005, name: "Kinder joy", image: "chkinderjoy.jpg", cat: "chocolates", selectedVariant: "Pouch", variants: { "Pouch": { price: 33, count: 0, unit: "500ml" }, "Family": { price: 64, count: 0, unit: "1L" } } },
+                            { id: 2006, name: "Kitkat", image: "chkitkat.jpg", cat: "chocolates", selectedVariant: "Pouch", variants: { "Pouch": { price: 33, count: 0, unit: "500ml" }, "Family": { price: 64, count: 0, unit: "1L" } } },
+                            { id: 2007, name: "Amul Velvett", image: "chvelvett.jpg", cat: "chocolates", selectedVariant: "Pouch", variants: { "Pouch": { price: 33, count: 0, unit: "500ml" }, "Family": { price: 64, count: 0, unit: "1L" } } },
+
+          /*biscuits*/      { id: 3001, name: "Crack Jack", image: "bicrakjack.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3002, name: "Dark Fantasy", image: "bidf.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3003, name: "Good Day Cashew", image: "bigooddayc.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3004, name: "Good Day ChocoChip", image: "bigooddaychoco.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3005, name: "Good Day Pista", image: "bigooddayp.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3006, name: "Hide and Seek", image: "bihideandseek.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3007, name: "Marigold", image: "bimari.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3008, name: "Milk Bikis", image: "bimb.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3009, name: "Oreo", image: "bioreo.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                            { id: 3010, name: "Parle-G", image: "biparleg.jpg", cat: "biscuits", selectedVariant: "Medium", variants: { "Small": { price: 180, count: 0, unit: "2kg" }, "Medium": { price: 350, count: 0, unit: "5kg" }, "Large": { price: 650, count: 0, unit: "10kg" } } },
+                                                
+            /*Snacks*/      { id: 4001, name: "Kurkure Chutney", image: "skurkurec.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "40gm" }, "Large": { price: 20, count: 0, unit: "75gm" } } },
+                            { id: 4002, name: "Kurkure Chilli", image: "skurkurecc.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "40gm" }, "Large": { price: 20, count: 0, unit: "75gm" } } },
+                            { id: 4003, name: "Kurkure Masala", image: "skurkurem.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "40gm" }, "Large": { price: 20, count: 0, unit: "75gm" } } },
+                            { id: 4004, name: "Lay's India's M", image: "slaysb.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "75g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 30, count: 0, unit: "200g" } } },
+                            { id: 4005, name: "Lay's American", image: "slaysg.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "75g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 30, count: 0, unit: "200g" } } },
+                            { id: 4006, name: "Lay's Classic", image: "slaysy.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "75g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 30, count: 0, unit: "200g" } } },
+                            { id: 4007, name: "Punjabi Tadka", image: "spunjabi.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "75g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 30, count: 0, unit: "200g" } } },
+                            { id: 4008, name: "Bhujia", image: "sbhujia.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "75g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 30, count: 0, unit: "200g" } } },
+                            { id: 4009, name: "Salted Peanuts", image: "ssalted.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "75g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 30, count: 0, unit: "200g" } } },
+                            { id: 4010, name: "Gup Shup", image: "sgup.jpg", cat: "snacks", selectedVariant: "Small", variants: { "Small": { price: 10, count: 0, unit: "75g" }, "Medium": { price: 50, count: 0, unit: "150g" }, "Large": { price: 30, count: 0, unit: "200g" } } },
+                        
+        /*Personal*/        { id: 5001, name: "Comb 15cm", image: "pccomb.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+                            { id: 5002, name: "Almond Oil", image: "pcalmond.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+                            { id: 5003, name: "Gillette Razor", image: "pcgillette.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+                            { id: 5004, name: "Pears", image: "pcpears.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+                            { id: 5005, name: "Scissors", image: "pcscissors.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+                            { id: 5006, name: "Handkerchief", image: "pchandkerchief.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+                            { id: 5007, name: "Head and Shoulders", image: "pcshampoo.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+                            { id: 5008, name: "Colgate", image: "pccolgate.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+                            { id: 5009, name: "Oral-B Pro Clean", image: "pcoralb.jpg", cat: "personal", selectedVariant: "Bottle", variants: { "Bottle": { price: 120, count: 0, unit: "180ml" } } },
+
+                    
     ];
 
     let recentAdditions = [];
