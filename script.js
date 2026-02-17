@@ -6,33 +6,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('popstate', function (event) {
-        const isSliderOpen = productSlider.classList.contains('active');
-        const isCartOpen = orderSidebar.classList.contains('active');
+    const isSliderOpen = productSlider.classList.contains('active');
+    const isCartOpen = orderSidebar.classList.contains('active');
 
-        if (isSliderOpen || isCartOpen) {
-            // If any slider is open, close them and stay on the grid
-            productSlider.classList.remove('active');
-            orderSidebar.classList.remove('active');
-            // Re-push state so the next "back" can be handled again
-            history.pushState({ page: 'grid' }, document.title, location.href);
+    // 1. If a slider or cart is open, close them first.
+    if (isSliderOpen || isCartOpen) {
+        productSlider.classList.remove('active');
+        orderSidebar.classList.remove('active');
+        
+        // We stay on the page, so we ensure the history state 
+        // remains at the 'grid' level for the next back press.
+        history.replaceState({ page: 'grid' }, document.title, location.href);
+    } 
+    // 2. If we are on the main grid (nothing open)
+    else {
+        if (sessionStorage.getItem('backPressedOnce')) {
+            // User pressed back for the second time within 2 seconds
+            sessionStorage.removeItem('backPressedOnce');
+            
+            // To "Exit", we go back one more time in history. 
+            // This takes the user to whatever site they were on before yours.
+            history.back(); 
         } else {
-            // DOUBLE-TAP TO EXIT LOGIC (When on main grid)
-            if (sessionStorage.getItem('backPressedOnce')) {
+            // First press: Set the flag and show a message
+            sessionStorage.setItem('backPressedOnce', 'true');
+            
+            // Using a non-blocking toast is better than an alert, 
+            // but for your current code, alert works:
+            alert("Press the back button again to exit.");
+            
+            // Reset the flag after 2 seconds
+            setTimeout(function () {
                 sessionStorage.removeItem('backPressedOnce');
-                history.back(); 
-            } else {
-                sessionStorage.setItem('backPressedOnce', 'true');
-                alert("Press the back button again to exit.");
-                
-                setTimeout(function () {
-                    sessionStorage.removeItem('backPressedOnce');
-                }, 2000);
+            }, 2000);
 
-                // Stay on current page
-                history.pushState({ page: 'grid' }, document.title, location.href);
-            }
+            // Crucial: Push the state back so the NEXT back press 
+            // triggers this 'popstate' event again.
+            history.pushState({ page: 'grid' }, document.title, location.href);
         }
-    });
+    }
+});
 
     // --- DATA ---
     const collections = [
@@ -388,17 +401,50 @@ document.addEventListener('DOMContentLoaded', () => {
     whatsappBtn.addEventListener('click', () => {
         const name = custNameInput.value;
         const address = custAddressInput.value;
+        const subtotal = document.getElementById('subtotal-val').innerText;
+        const delivery = document.getElementById('delivery-val').innerText;
         const total = document.getElementById('total-price').innerText;
+
         if (total == "0") { alert("Cart is empty!"); return; }
         if (!name || !address) { alert("Please enter Name and Address."); return; }
-        let msg = `*🛍️ NEW ORDER - WINK IT* %0A👤 Name: ${name}%0A📍 Address: ${address}%0A🛒 ITEMS:%0A`;
+
+        // Generate Date and Time
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('en-GB'); // DD/MM/YYYY
+        const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
+        // Location Link Logic
+        const locationLink = userCoords 
+            ? `https://www.google.com/maps?q=${userCoords.lat},${userCoords.lon}`
+            : `(Location not tagged)`;
+
+        // Construct Message
+        let msg = `🛍️ *NEW ORDER - WINK IT* %0A`;
+        msg += `--------------------------%0A`;
+        msg += `📅 Date: ${dateStr} | ${timeStr}%0A`;
+        msg += `👤 Name: ${name}%0A`;
+        msg += `📍 Address: ${address}%0A`;
+        msg += `🗺️ Location: ${locationLink}%0A%0A`;
+        msg += `🛒 *ITEMS:*%0A`;
+
+        let itemIndex = 1;
         products.forEach(p => {
             Object.keys(p.variants).forEach(vName => {
                 const v = p.variants[vName];
-                if (v.count > 0) msg += `- ${p.name} (${vName}) x${v.count} - ₹${v.price * v.count}%0A`;
+                if (v.count > 0) {
+                    msg += `${itemIndex}. ${p.name} (${vName}) x${v.count} - ₹${v.price * v.count}%0A`;
+                    itemIndex++;
+                }
             });
         });
-        msg += `TOTAL: ₹${total}`;
+
+        msg += `--------------------------%0A`;
+        msg += `Subtotal: ₹${subtotal}%0A`;
+        msg += `Delivery: ₹${delivery}%0A`;
+        msg += `*TOTAL AMOUNT: ₹${total}*%0A`;
+        msg += `--------------------------%0A`;
+        msg += `Cash on Delivery, our delivery partner will call you shortly.`;
+
         window.location.href = `https://api.whatsapp.com/send?phone=917983427187&text=${msg}`;
     });
     products.sort((a, b) => a.name.localeCompare(b.name));
