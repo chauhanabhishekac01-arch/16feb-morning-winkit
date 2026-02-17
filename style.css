@@ -40,7 +40,7 @@ header { width: 100%; height: 4rem; border-bottom: 1px solid #ccc; display: flex
 .suggestion-item img { width: 30px; height: 30px; object-fit: cover; border-radius: 4px; }
 
 .nav-links { display: flex; align-items: center; gap: 5px; }
-.nav-links h2 { font-size: clamp(0.8rem, 1.5vw, 1.5rem); margin: 0; cursor: pointer; color: white; border: 1px solid white; border-radius: 5px; padding: 4px 3px; white-space: nowrap;}
+.nav-links h2 { font-size: clamp(0.8rem, 1.5vw, 1.5rem); margin: 0; cursor: pointer; color: white; border: 1px solid white; border-radius: 5px; padding: 4px 0px; padding-inline: clamp(0.5rem, 1vw, 1rem);white-space: nowrap;}
 .nav-links h2:hover { background-color: #ffeb3b; color: black;}
 
 .order-trigger { display: flex; align-items: center; justify-content: center; background-color: rgb(132, 247, 132); padding: 2px 4px; border: 2px solid #333; width: clamp(4rem, 8vw, 8rem); border-radius: 6px; cursor: pointer; font-weight: bold; font-size: clamp(0.8rem, 1.5vw, 1.5rem) }
@@ -82,12 +82,12 @@ header { width: 100%; height: 4rem; border-bottom: 1px solid #ccc; display: flex
 .unit-text { opacity: 0.8; font-weight: normal; }
 
 .controls { display: flex; justify-content: center; align-items: center; gap: 10px; min-height: 40px; }
-.controls button { padding: 5px 10px; cursor: pointer; border: 1px solid #333; background: white; border-radius: 4px; font-weight: bold; font-size: 1.5rem; }
+.controls button { padding: 5px 10px; cursor: pointer; border: 1px solid #333; background: rgb(7, 207, 57); border-radius: 4px; font-weight: bold; font-size: 1.5rem; }
 .controls button:hover { background: green; color: white; }
 .qty-btn { background: #ffeb3b !important; border: none !important; }
 .qty-controls span { margin: 0 8px; font-weight: bold; }
 
-#orderSidebar { position: fixed; bottom: 0rem; right: 0; width: 400px; max-width: 100%; height: 100svh; background: white; box-shadow: -5px 0 25px rgba(0,0,0,0.15); transition: 0.4s ease-in-out; transform: translateX(100%); z-index: 1000; padding: 20px; padding-top: 4rem; overflow-y: auto; font-size: 1.5rem;}
+#orderSidebar { position: fixed; bottom: 0rem; right: 0; width: 400px; max-width: 100%; height: 100svh; background: white; box-shadow: -5px 0 25px rgba(0,0,0,0.15); transition: 0.4s ease-in-out; transform: translateX(100%); z-index: 1000; padding: 20px; padding-top: 4rem; overflow-y: auto; font-size: 1.2rem;}
 #orderSidebar.active { transform: translateX(0); }
 .order-item-detail { display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #eee; padding: 12px 0;}
 .order-item-detail img { width: 45px; height: 45px; object-fit: cover; border-radius: 4px; }
@@ -95,13 +95,13 @@ header { width: 100%; height: 4rem; border-bottom: 1px solid #ccc; display: flex
 .side-qty-btn { background: #ffeb3b; border: 1px solid #333; border-radius: 4px; padding: 2px 8px; cursor: pointer; font-weight: bold; }
 
 .address-section { margin-top: 15px; background: #f4f4f4; padding: 12px; border-radius: 8px; }
-.address-section input, .address-section textarea { width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1.3rem;}
-.loc-btn { background: #007bff; font-size: 1.3rem; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; margin-top: 10px; cursor: pointer; }
+.address-section input, .address-section textarea { width: 100%; margin-top: 8px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1.2rem;}
+.loc-btn { background: #007bff; font-size: 1.2rem; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; margin-top: 10px; cursor: pointer; }
 #location-display { font-size: 11px; color: #666; display: block; margin-top: 5px; }
 
-.checkout-btn { width: 100%; padding: 15px; background: #25D366; color:white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.5rem; font-weight: bold; margin-top: 15px; display: flex; align-items: center; justify-content: center;}
+.checkout-btn { width: 100%; padding: 15px; background: #25D366; color:white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.3rem; font-weight: bold; margin-top: 15px; display: flex; align-items: center; justify-content: center;}
 .lock-icon { margin-right: 5px; }
-.close-btn { background: rgb(216, 213, 213); border: 1px solid black; font-size: clamp(1.5rem, 2vw, 2rem); cursor: pointer; float: right; border-radius: 5px; padding: 1rem;}
+.close-btn { background: rgb(216, 213, 213); border: 1px solid black; font-size: clamp(1.5rem, 2vw, 2rem); cursor: pointer; float: right; border-radius: 5px; padding: 0.5rem 1rem;}
 
 .cart-popup { border: 1px solid purple; background-color: rgb(132, 247, 132); position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 320px; padding: 10px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; z-index: 1500; cursor: pointer; }
 .cart-popup p{font-weight: bolder; padding: 0px; margin: 0px;}

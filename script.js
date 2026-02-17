@@ -1,51 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- NAVIGATION & HISTORY LOGIC ---
-    // Initialize history state
     if (!history.state) {
         history.replaceState({ page: 'grid' }, document.title, location.href);
     }
 
     window.addEventListener('popstate', function (event) {
-    const isSliderOpen = productSlider.classList.contains('active');
-    const isCartOpen = orderSidebar.classList.contains('active');
+        const isSliderOpen = productSlider.classList.contains('active');
+        const isCartOpen = orderSidebar.classList.contains('active');
 
-    // 1. If a slider or cart is open, close them first.
-    if (isSliderOpen || isCartOpen) {
-        productSlider.classList.remove('active');
-        orderSidebar.classList.remove('active');
+        // 1. If an overlay is open, just close it. No exit alert.
+        if (isSliderOpen || isCartOpen) {
+            productSlider.classList.remove('active');
+            orderSidebar.classList.remove('active');
+            return; 
+        } 
         
-        // We stay on the page, so we ensure the history state 
-        // remains at the 'grid' level for the next back press.
-        history.replaceState({ page: 'grid' }, document.title, location.href);
-    } 
-    // 2. If we are on the main grid (nothing open)
-    else {
-        if (sessionStorage.getItem('backPressedOnce')) {
-            // User pressed back for the second time within 2 seconds
-            sessionStorage.removeItem('backPressedOnce');
-            
-            // To "Exit", we go back one more time in history. 
-            // This takes the user to whatever site they were on before yours.
-            history.back(); 
-        } else {
-            // First press: Set the flag and show a message
-            sessionStorage.setItem('backPressedOnce', 'true');
-            
-            // Using a non-blocking toast is better than an alert, 
-            // but for your current code, alert works:
-            alert("Press the back button again to exit.");
-            
-            // Reset the flag after 2 seconds
-            setTimeout(function () {
+        // 2. If on main grid, handle double-press to exit
+        else {
+            if (sessionStorage.getItem('backPressedOnce')) {
                 sessionStorage.removeItem('backPressedOnce');
-            }, 2000);
+                history.back(); 
+            } else {
+                sessionStorage.setItem('backPressedOnce', 'true');
+                alert("Press the back button again to exit.");
+                
+                setTimeout(function () {
+                    sessionStorage.removeItem('backPressedOnce');
+                }, 2000);
 
-            // Crucial: Push the state back so the NEXT back press 
-            // triggers this 'popstate' event again.
-            history.pushState({ page: 'grid' }, document.title, location.href);
+                history.pushState({ page: 'grid' }, document.title, location.href);
+            }
         }
-    }
-});
+    });
 
     // --- DATA ---
     const collections = [
@@ -58,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     const products = [
-        /*bevrage*/         { id: 1, name: "Mineral Water", image: "dwater.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 20, count: 0, unit: "1L" }, "Large": { price: 70, count: 0, unit: "5L" } } },
+        
+        /*Beverage*/        { id: 1, name: "Mineral Water", image: "dwater.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 20, count: 0, unit: "1L" }, "Large": { price: 70, count: 0, unit: "5L" } } },
                             { id: 2, name: "Coca-Cola Bottle", image: "dcokeb.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "750ml" }, "Large": { price: 90, count: 0, unit: "2L" } } },
                             { id: 3, name: "Coca-Cola Can", image: "dcokec.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "300ml" } } },
                             { id: 4, name: "Dite Coke Can", image: "dcoked.jpg", cat: "beverages", selectedVariant: "Small", variants: { "Small": { price: 40, count: 0, unit: "500ml" } } },
@@ -139,11 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-    // --- HIGHLIGHT LOGIC ---
     function openAndHighlight(productId, catId) {
         const col = collections.find(c => c.id === catId);
         openCollection(catId, col.name);
-
         setTimeout(() => {
             const el = document.getElementById(`prod-${productId}`);
             if (el) {
@@ -154,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 400);
     }
 
-    // --- CORE LOGIC ---
     function openCollection(catId, catName) {
         activeCategory = catId;
         document.getElementById('slider-title').innerText = catName;
@@ -162,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
         orderSidebar.classList.remove('active');
         productSlider.classList.add('active');
         updateSidebar();
-        // Add history state so back button closes slider
         history.pushState({ page: 'slider' }, document.title, location.href);
     }
 
@@ -298,26 +281,15 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSidebar();
     };
 
-    const toggleSlider = () => {
-        const opening = !productSlider.classList.contains('active');
-        orderSidebar.classList.remove('active');
-        productSlider.classList.toggle('active');
-        if (opening) {
-            history.pushState({ page: 'slider' }, document.title, location.href);
-        }
-    };
-
     document.getElementById('cart-trigger').addEventListener('click', toggleSidebar);
     document.getElementById('cart-popup').addEventListener('click', toggleSidebar);
     document.getElementById('close-sidebar').addEventListener('click', () => history.back());
     document.getElementById('close-slider').addEventListener('click', () => history.back());
 
-    // --- SEARCH & CLEAR LOGIC ---
     searchInput.addEventListener('input', () => {
         const query = searchInput.value.toLowerCase().trim();
         if (query) clearSearch.classList.remove('hidden');
         else clearSearch.classList.add('hidden');
-
         if (!query) { searchSuggestions.style.display = "none"; return; }
         const matches = products.filter(p => p.name.toLowerCase().includes(query)).slice(0, 6);
         if (matches.length > 0) {
@@ -338,9 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (found) {
                 searchSuggestions.style.display = "none";
                 openAndHighlight(found.id, found.cat);
-            } else if(query !== "") { 
-                alert("Product not found!"); 
-            }
+            } else if(query !== "") { alert("Product not found!"); }
         }
     });
 
@@ -363,12 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search-btn').addEventListener('click', () => {
         const query = searchInput.value.toLowerCase().trim();
         const found = products.find(p => p.name.toLowerCase().includes(query));
-        if (found) {
-            openAndHighlight(found.id, found.cat);
-        } else { alert("Product not found!"); }
+        if (found) { openAndHighlight(found.id, found.cat); } else { alert("Product not found!"); }
     });
 
-    // --- CHECKOUT ENTER KEY LOGIC ---
     [custNameInput, custAddressInput].forEach(input => {
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -378,7 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Location Logic
     document.getElementById('location-btn').addEventListener('click', async () => {
         const display = document.getElementById('location-display');
         if (navigator.geolocation) {
@@ -404,21 +370,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const subtotal = document.getElementById('subtotal-val').innerText;
         const delivery = document.getElementById('delivery-val').innerText;
         const total = document.getElementById('total-price').innerText;
-
         if (total == "0") { alert("Cart is empty!"); return; }
         if (!name || !address) { alert("Please enter Name and Address."); return; }
-
-        // Generate Date and Time
         const now = new Date();
-        const dateStr = now.toLocaleDateString('en-GB'); // DD/MM/YYYY
+        const dateStr = now.toLocaleDateString('en-GB');
         const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-
-        // Location Link Logic
-        const locationLink = userCoords 
-            ? `https://www.google.com/maps?q=${userCoords.lat},${userCoords.lon}`
-            : `(Location not tagged)`;
-
-        // Construct Message
+        const locationLink = userCoords ? `https://www.google.com/maps?q=${userCoords.lat},${userCoords.lon}` : `(Location not tagged)`;
         let msg = `🛍️ *NEW ORDER - WINK IT* %0A`;
         msg += `--------------------------%0A`;
         msg += `📅 Date: ${dateStr} | ${timeStr}%0A`;
@@ -426,7 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
         msg += `📍 Address: ${address}%0A`;
         msg += `🗺️ Location: ${locationLink}%0A%0A`;
         msg += `🛒 *ITEMS:*%0A`;
-
         let itemIndex = 1;
         products.forEach(p => {
             Object.keys(p.variants).forEach(vName => {
@@ -437,18 +393,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-
         msg += `--------------------------%0A`;
         msg += `Subtotal: ₹${subtotal}%0A`;
         msg += `Delivery: ₹${delivery}%0A`;
         msg += `*TOTAL AMOUNT: ₹${total}*%0A`;
         msg += `--------------------------%0A`;
         msg += `Cash on Delivery, our delivery partner will call you shortly.`;
-
         window.location.href = `https://api.whatsapp.com/send?phone=917983427187&text=${msg}`;
     });
-    products.sort((a, b) => a.name.localeCompare(b.name));
 
+    products.sort((a, b) => a.name.localeCompare(b.name));
     renderCollections();
 });
-
